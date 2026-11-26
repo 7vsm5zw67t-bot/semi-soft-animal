@@ -1,0 +1,20 @@
+---
+layout: base.njk
+---
+{% set list = collections.words %}
+{% for item in list %}{% if item.url == page.url %}{% set newer = list[loop.index0 - 1] if loop.index0 > 0 else null %}{% set older = list[loop.index0 + 1] %}{% endif %}{% endfor %}
+<article class="post">
+<div class="page-title">
+<span class="cap" style="color: var(--accent); font-weight: 600">{{ kind or "Essay" }} &nbsp;·&nbsp; {{ page.date | niceDate }}</span>
+<h1>{{ title }}</h1>
+{% if subtitle %}<p class="sub">{{ subtitle }}</p>{% endif %}
+</div>
+{% if image %}<figure class="lead"><img src="{{ image }}" alt="{{ image_alt or '' }}" loading="eager">{% if image_caption %}<figcaption class="caption">{{ image_caption }}</figcaption>{% endif %}</figure>{% endif %}
+<div class="prose">{{ content | safe }}</div>
+</article>
+{% if older or newer %}
+<nav class="post-nav" aria-label="More words">
+{% if older %}<a href="{{ older.url }}"><span class="cap muted">Earlier</span><span class="t">{{ older.data.title }}</span></a>{% endif %}
+{% if newer %}<a class="next" href="{{ newer.url }}"><span class="cap muted">Later</span><span class="t">{{ newer.data.title }}</span></a>{% endif %}
+</nav>
+{% endif %}
