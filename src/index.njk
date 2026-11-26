@@ -1,0 +1,31 @@
+---
+layout: base.njk
+---
+{% import "macros.njk" as m %}
+{% set featured = (collections.photos | where("featured", true) | first) or (collections.photos | first) %}
+<section class="opening">
+<p class="intro">{{ site.intro }}</p>
+{% if featured %}
+<div class="hero"><img src="{{ featured.data.image }}" alt="{{ featured.data.alt or featured.data.title }}" loading="eager"></div>
+{{ m.memo(featured.data.memo) }}
+{% if featured.data.caption %}<p class="caption">{{ featured.data.caption }}</p>{% endif %}
+{% endif %}
+</section>
+
+<section>
+<div class="section-head"><h2>Words</h2><a class="cap" href="/words/">All words</a></div>
+{% for item in collections.words | limit(3) %}{{ m.wordRow(item) }}{% else %}<p class="empty">Nothing here yet.</p>{% endfor %}
+</section>
+
+<section>
+<div class="section-head" style="margin-bottom: 32px"><h2>Photos</h2><a class="cap" href="/photos/">All photos</a></div>
+<div class="photo-grid three">
+{% set shown = 0 %}
+{% for item in collections.photos %}{% if item != featured and shown < 3 %}{{ m.photo(item) }}{% set shown = shown + 1 %}{% endif %}{% endfor %}
+</div>
+</section>
+
+<section>
+<div class="section-head"><h2>Favorite reads</h2><a class="cap" href="/reads/">All reads</a></div>
+{% for item in collections.reads | limit(3) %}{{ m.readRow(item) }}{% else %}<p class="empty">Nothing here yet.</p>{% endfor %}
+</section>
