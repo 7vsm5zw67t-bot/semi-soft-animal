@@ -1,0 +1,43 @@
+{% macro memo(src) %}
+{% if src %}
+<div class="memo">
+<button type="button" aria-label="Play voice memo">
+<svg class="icon-play" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14"><path d="M3 1.5l9 5.5-9 5.5z" fill="currentColor"/></svg>
+<svg class="icon-pause" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14"><path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"/></svg>
+</button>
+<div class="track"><span><i></i></span></div>
+<span class="time cap">Listen</span>
+<audio preload="metadata" src="{{ src }}"></audio>
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro photo(item) %}
+<figure class="photo">
+{% if item.data.image %}<img src="{{ item.data.image }}" alt="{{ item.data.alt or item.data.title }}">{% endif %}
+{{ memo(item.data.memo) }}
+{% if item.data.caption %}<figcaption class="caption">{{ item.data.caption }}</figcaption>{% endif %}
+</figure>
+{% endmacro %}
+
+{% macro wordRow(item) %}
+<a class="word-row" href="{{ item.url }}">
+<div class="text">
+<span class="cap muted">{{ item.data.kind or "Essay" }} &nbsp;·&nbsp; {{ item.date | niceDate }}</span>
+<h3>{{ item.data.title }}</h3>
+<p>{{ item.data.subtitle or (item.templateContent | excerpt) }}</p>
+</div>
+{% if item.data.image %}<div class="thumb"><img src="{{ item.data.image }}" alt="" sizes="190px"></div>{% endif %}
+</a>
+{% endmacro %}
+
+{% macro readRow(item) %}
+<div class="read-row">
+<span class="kind cap">{{ item.data.kind or "Book" }}</span>
+<div class="text">
+<h3><em>{{ item.data.title }}</em>{% if item.data.author %}, {{ item.data.author }}{% endif %}</h3>
+{% if item.data.note %}<p>{{ item.data.note }}</p>{% endif %}
+</div>
+{% if item.data.link %}<a class="cap" href="{{ item.data.link }}">Find it</a>{% endif %}
+</div>
+{% endmacro %}
