@@ -1,0 +1,22 @@
+---
+layout: base.njk
+title: Favorite reads
+permalink: /reads/
+---
+{% import "macros.njk" as m %}
+<div class="page-title"><h1>Favorite reads</h1></div>
+{% set now = collections.reads | where("shelf", "Reading now") %}
+{% set always = collections.reads | where("shelf", "Always recommending") %}
+{% if now.length %}
+<section>
+<div class="section-head"><h2>Reading now</h2></div>
+{% for item in now %}{{ m.readRow(item) }}{% endfor %}
+</section>
+{% endif %}
+{% if always.length %}
+<section>
+<div class="section-head"><h2>Always recommending</h2></div>
+{% for item in always %}{{ m.readRow(item) }}{% endfor %}
+</section>
+{% endif %}
+{% if not collections.reads.length %}<p class="empty">Nothing here yet.</p>{% endif %}
