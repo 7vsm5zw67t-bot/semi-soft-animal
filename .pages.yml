@@ -1,0 +1,168 @@
+# Settings for the editing screen (Pages CMS, app.pagescms.org).
+media:
+  - name: photos
+    label: Photos
+    input: src/media/photos
+    output: /media/photos
+    categories: [image]
+    rename: safe
+  - name: memos
+    label: Voice memos
+    input: src/media/memos
+    output: /media/memos
+    categories: [audio]
+    rename: safe
+
+content:
+  - name: photos
+    label: Photos
+    type: collection
+    path: src/photos
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, date, featured]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Name
+        description: A short name for this photo. Not shown on the site, but read aloud to visitors who cannot see the image.
+        type: string
+        required: true
+      - name: date
+        label: Date
+        type: date
+        required: true
+      - name: image
+        label: Photo
+        type: image
+        required: true
+        options:
+          media: photos
+      - name: caption
+        label: Caption (optional)
+        type: text
+      - name: memo
+        label: Voice memo (optional)
+        description: A recording of you talking about this photo. Phone recordings (m4a) work as they are.
+        type: file
+        options:
+          media: memos
+          categories: [audio]
+      - name: featured
+        label: Show large at the top of the homepage
+        type: boolean
+
+  - name: words
+    label: Words
+    type: collection
+    path: src/words
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, kind, date, draft]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: date
+        label: Date
+        type: date
+        required: true
+      - name: kind
+        label: Kind
+        type: select
+        options:
+          values: [Essay, Poem]
+      - name: subtitle
+        label: Subtitle (optional)
+        type: string
+      - name: image
+        label: Lead photo (optional)
+        type: image
+        options:
+          media: photos
+      - name: image_caption
+        label: Lead photo caption (optional)
+        type: string
+      - name: draft
+        label: Draft (keep off the site)
+        type: boolean
+      - name: body
+        label: Text
+        type: rich-text
+
+  - name: reads
+    label: Favorite reads
+    type: collection
+    path: src/reads
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, author, shelf]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: author
+        label: Author
+        type: string
+      - name: kind
+        label: Kind
+        type: select
+        options:
+          values: [Book, Article, Newsletter, Poem, Other]
+      - name: shelf
+        label: Shelf
+        type: select
+        required: true
+        options:
+          values: [Reading now, Always recommending]
+      - name: note
+        label: Why you love it
+        type: text
+      - name: link
+        label: Link to find it (optional)
+        type: string
+      - name: date
+        label: Date added
+        type: date
+        required: true
+
+  - name: site
+    label: Site settings
+    type: file
+    path: src/_data/site.json
+    format: json
+    fields:
+      - name: title
+        label: Site name
+        type: string
+      - name: intro
+        label: Opening sentence on the homepage
+        type: text
+      - name: about
+        label: About page text
+        type: text
+      - name: footer_line
+        label: Line above the Subscribe button
+        type: string
+      - name: substack
+        label: Subscribe link
+        type: string
+      - name: location
+        label: Location shown in the footer
+        type: string
